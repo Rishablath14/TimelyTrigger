@@ -34,8 +34,8 @@ const Pricing = () => {
                 body: JSON.stringify({
                   planId: 'price_1OtZdZSByltqYxNxFNh0EfY5', // Replace with your actual plan ID
                   id: userId, // Pass the user ID for metadata
-                  successUrl: 'https://20e6-2405-201-3008-e1f3-7557-2f02-9293-ce3.ngrok-free.app/checkout/success', // Adjust URL for your deployment
-                  cancelUrl: 'https://20e6-2405-201-3008-e1f3-7557-2f02-9293-ce3.ngrok-free.app/checkout/cancel', // Adjust URL for your deployment
+                  successUrl: 'https://timelytrigger.netlify.app/checkout/success', // Adjust URL for your deployment
+                  cancelUrl: 'https://timelytrigger.netlify.app/checkout/cancel', // Adjust URL for your deployment
             })})
 
             const {sessionId} = await session.json();

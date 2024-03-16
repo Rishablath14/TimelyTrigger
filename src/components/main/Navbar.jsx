@@ -24,8 +24,7 @@ const Navbar = () => {
   return (
     <div className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#030014a2] lg:bg-[#03001417] backdrop-blur-md z-50 px-2 md:px-12">
       <div className="w-full h-full flex flex-row items-center justify-between m-auto px-[10px]">
-        <a href="/"
-        className="h-auto w-auto flex flex-row items-center pb-2">
+        <a href="/" className="h-auto w-auto flex flex-row items-center pb-2">
           <Image
             src="/TTlogo.png"
             alt="logo"

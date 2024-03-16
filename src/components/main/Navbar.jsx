@@ -24,13 +24,7 @@ const Navbar = () => {
   return (
     <div className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#030014a2] lg:bg-[#03001417] backdrop-blur-md z-50 px-2 md:px-12">
       <div className="w-full h-full flex flex-row items-center justify-between m-auto px-[10px]">
-        <Link 
-        activeClass="active"
-        to="about-me"
-        spy={true}
-        smooth={true}
-        offset={-20}
-        duration={500}
+        <a href="/"
         className="h-auto w-auto flex flex-row items-center pb-2">
           <Image
             src="/TTlogo.png"
@@ -42,7 +36,7 @@ const Navbar = () => {
           <span className="font-bold ml-[10px] block text-gray-300 mt-2 lg:text-xl xl:text-2xl text-lg">
             Timely Trigger
           </span>
-        </Link>
+        </a>
         <div className="lg:hidden order-2">
           {open ? (
             <button

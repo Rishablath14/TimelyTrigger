@@ -4,5 +4,5 @@ import { NextResponse } from "next/server";
 export async function GET(req,res){
     const user = await currentUser();
     const {publicMetadata} = user;
-    return NextResponse.json({details:publicMetadata,name:"Rishab"});
+    return NextResponse.json({publicMetadata});
 }

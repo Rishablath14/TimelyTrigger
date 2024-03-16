@@ -8,15 +8,17 @@ import { useEffect, useState } from 'react';
 const Pricing = () => {
     const [loading,setLoading] = useState(false);
     const {isSignedIn,userId} = useAuth();
-    const {userPur,setUserPur} = useState(false);
+    const [userPur,setUserPur] = useState([]);
     useEffect(()=>{
         if(userId){
-        fetch('/api/users').then((res)=>{
-              if(!res.ok){console.log('error')
-            }
-        return res.json();
-            })
-            .then(data=> {console.log(data.details)})
+        const getData= async()=>{
+            const res = await fetch('/api/users');
+            const data = await res.json();
+            console.log(data.publicMetadata);
+            setUserPur(data.publicMetadata)
+        }
+            getData();
+        
         }
     },[])
     const handlePricing = async()=>{
@@ -59,7 +61,7 @@ const Pricing = () => {
       </div>
       <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
           <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg dark:border-gray-600 xl:p-8 dark:bg-[#0000009f] dark:text-white shadow-2 hover:shadow-lg">
-              <h3 className="mb-4 text-2xl font-semibold">{userPur && Hello}Basic Plan</h3>
+              <h3 className="mb-4 text-2xl font-semibold">Basic Plan</h3>
               <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">Best functional option for Small &nbsp; Institutions</p>
               <div className="flex justify-center items-baseline my-8">
                   <span className="mr-2 text-5xl font-extrabold">$49</span>
@@ -93,7 +95,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">6 months</span></span>
                   </li>
               </ul>
-              <button onClick={handlePricing} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">Get started</button>
+              <button onClick={handlePricing} disabled={loading || userPur.subscriber?true:false} className={`text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900 ${userPur.subscriber && "bg-green-700"}`}>{userPur.subscriber?"Purchased":"Get started"}</button>
           </div>
           <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg dark:border-gray-600 xl:p-8 dark:bg-[#0000009f] dark:text-white shadow-2 hover:shadow-lg">
               <h3 className="mb-4 text-2xl font-semibold">Premium Plan</h3>
@@ -140,7 +142,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">24 months</span></span>
                   </li>
               </ul>
-              <button onClick={handlePricing} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">Get started</button>
+              <button onClick={handlePricing} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">{userPur.subscriber?"Upgrade":"Get started"}</button>
           </div>
           <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg dark:border-gray-600 xl:p-8 dark:bg-[#0000009f] dark:text-white shadow-2 hover:shadow-lg">
               <h3 className="mb-4 text-2xl font-semibold">Enterprise Plan</h3>
@@ -196,7 +198,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">36 months</span></span>
                   </li>
               </ul>
-              <button onClick={handlePricing} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">Get started</button>
+              <button onClick={handlePricing} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">{userPur.subscriber?"Upgrade":"Get started"}</button>
           </div>
       </div>
   </div>

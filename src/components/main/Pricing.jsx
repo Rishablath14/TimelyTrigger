@@ -4,6 +4,7 @@ import {loadStripe} from "@stripe/stripe-js";
 import SkillText from '../sub/SkillText'
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 const Pricing = () => {
     const [loading,setLoading] = useState(false);
@@ -28,13 +29,14 @@ const Pricing = () => {
         setLoading(true);
       const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
       if (!stripe) throw new Error('Stripe failed to initialize.');
-      const planid = num==3 ? 'price_1OtVCpSByltqYxNxm3Tp8YNw':'price_1OtZdZSByltqYxNxFNh0EfY5';
+      const planid = num==3 ? 'price_1OtVCpSByltqYxNxm3Tp8YNw': num==2 ? 'price_1OwNJcSByltqYxNxPnzwWTge' : 'price_1OwNHkSByltqYxNxeMjgsdjL';
       const session = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                  subsId:num,  
                   planId: planid, // Replace with your actual plan ID
                   id: userId, // Pass the user ID for metadata
                   successUrl: 'https://timelytrigger.netlify.app/checkout/success', // Adjust URL for your deployment
@@ -96,7 +98,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">6 months</span></span>
                   </li>
               </ul>
-              <button onClick={()=>handlePricing(1)} disabled={loading || userPur.subscriber?true:false} className={`text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900 ${userPur.subscriber && "bg-green-700"}`}>{userPur.subscriber?"Purchased":"Get started"}</button>
+              <button onClick={()=>handlePricing(1)} disabled={loading || userPur.subscriber?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subscriber && "bg-green-700 hover:bg-green-900" )}>{userPur.subscriber?"Purchased":"Get started"}</button>
           </div>
           <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg dark:border-gray-600 xl:p-8 dark:bg-[#0000009f] dark:text-white shadow-2 hover:shadow-lg">
               <h3 className="mb-4 text-2xl font-semibold">Premium Plan</h3>
@@ -143,7 +145,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">24 months</span></span>
                   </li>
               </ul>
-              <button onClick={()=>handlePricing(2)} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">{userPur.subscriber?"Upgrade":"Get started"}</button>
+              <button onClick={()=>handlePricing(2)} disabled={loading || userPur.subsId>1?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subsId>1 && "bg-green-700 hover:bg-green-900" )}>{userPur.subsId>1?"Purchased":"Get started"}</button>
           </div>
           <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg dark:border-gray-600 xl:p-8 dark:bg-[#0000009f] dark:text-white shadow-2 hover:shadow-lg">
               <h3 className="mb-4 text-2xl font-semibold">Enterprise Plan</h3>
@@ -199,7 +201,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">36 months</span></span>
                   </li>
               </ul>
-              <button onClick={()=>handlePricing(3)} disabled={loading?true:false} className="text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">{userPur.subscriber?"Upgrade":"Get started"}</button>
+              <button onClick={()=>handlePricing(3)} disabled={loading || userPur.subsId>2?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subsId>2 && "bg-green-700 hover:bg-green-900" )}>{userPur.subsId>2?"Purchased":"Get started"}</button>
           </div>
       </div>
   </div>

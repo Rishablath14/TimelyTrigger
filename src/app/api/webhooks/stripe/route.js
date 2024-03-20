@@ -24,15 +24,14 @@ export async function POST(req, res) {
     case 'checkout.session.completed':
         try {
         const adminUserId = event.data.object.metadata.userId;
+        const adminSubsId = Number(event.data.object.metadata.subsId);
         console.log(event.data.object);
-        const plan = event.data.object.amount_total;
         const res = await clerkClient.users.updateUserMetadata(
           adminUserId,
           {
             publicMetadata: {
               subscriber: true,
-              subsId:1,
-              planId:"price_1OuAiwSByltqYxNxobdxN1u2",
+              subsId:adminSubsId,
               isCanceled:false,
               role:"admin",      
             },

@@ -59,7 +59,6 @@ export async function POST(req) {
                 publicMetadata: {
                   subscriber: false,
                   subsId:null,
-                  planId:null,
                   isCanceled:false,
                   role:"user",      
                 },

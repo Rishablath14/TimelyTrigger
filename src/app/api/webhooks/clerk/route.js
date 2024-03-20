@@ -2,8 +2,6 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server';
 import { clerkClient } from "@clerk/nextjs/server";
-import { connectToMongoDB } from '@/utils/dbconnect';
-import User from '@/utils/models/userModel';
 
 export async function POST(req) {
  
@@ -54,20 +52,6 @@ export async function POST(req) {
  
   switch (evt.type) {
     case 'user.created':
-await connectToMongoDB();
-      try {
-          const user = await User.findOne({mUserId:id});
-          if(!user){
-            const newUser = await User.create({
-              fullName:first_name+" "+last_name,
-              mUserId:id
-            })
-            await newUser.save();
-          }
-        } catch (e) {
-          console.error("Error adding Mongo document: ", e);
-        }
-        finally{
           try {
             const res = await clerkClient.users.updateUser(
               id,
@@ -85,11 +69,8 @@ await connectToMongoDB();
           } catch (err) {
             console.log(err);
           }  
-        }
-        
-      break;
+          break;
   }
- 
   return NextResponse.json({message:"Successfully get the webhook request"}, { status: 200 })
 }
  

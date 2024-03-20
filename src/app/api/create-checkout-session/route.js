@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 export async function POST(req, res) {
-  const {id, successUrl, cancelUrl } = await req.json();
+  const {id, successUrl, cancelUrl,planId } = await req.json();
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2023-08-16",
@@ -12,7 +12,7 @@ export async function POST(req, res) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: "price_1OuAiwSByltqYxNxobdxN1u2",
+          price: planId,
           quantity: 1,
         },
       ],

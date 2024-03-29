@@ -16,17 +16,34 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useWindowWidth } from "@react-hook/window-size";
+import { useAuth } from "@clerk/nextjs";
 
 export default function SideNavbar() {
+  const {userId} = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mobileWidth, setMobileWidth] = useState(false);
+  const [vis, setVis] = useState(false);
   const onlyWidth = useWindowWidth();
   useEffect(()=>{
-    if(onlyWidth < 768) setMobileWidth(true);
+    if(userId){
+      const getData= async()=>{
+        const res = await fetch('/api/users');
+        const data = await res.json();
+        if(data.publicMetadata.univerId!=="none") setVis(true);
+        else setVis(false);
+        }
+        getData();
+        
+      }
+      if(onlyWidth < 768) setMobileWidth(true);
   },[])
 
   function toggleSidebar() {
     setIsCollapsed(!isCollapsed);
+  }
+
+  if(!vis){
+    return <></>;
   }
 
   return (

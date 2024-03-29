@@ -145,7 +145,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">24 months</span></span>
                   </li>
               </ul>
-              <button onClick={()=>handlePricing(2)} disabled={loading || userPur.subsId>1?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subsId>1 && "bg-green-700 hover:bg-green-900" )}>{userPur.subsId>1?"Purchased":"Get started"}</button>
+              <button onClick={()=>handlePricing(2)} disabled={loading || userPur.subsId>1?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subsId>1 && "bg-green-700 hover:bg-green-900" )}>{userPur.subsId>1?"Purchased":userPur.subscriber?"Upgrade":"Get started"}</button>
           </div>
           <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg dark:border-gray-600 xl:p-8 dark:bg-[#0000009f] dark:text-white shadow-2 hover:shadow-lg">
               <h3 className="mb-4 text-2xl font-semibold">Enterprise Plan</h3>
@@ -201,7 +201,7 @@ const Pricing = () => {
                       <span>Free updates: <span className="font-semibold">36 months</span></span>
                   </li>
               </ul>
-              <button onClick={()=>handlePricing(3)} disabled={loading || userPur.subsId>2?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subsId>2 && "bg-green-700 hover:bg-green-900" )}>{userPur.subsId>2?"Purchased":"Get started"}</button>
+              <button onClick={()=>handlePricing(3)} disabled={loading || userPur.subsId>2?true:false} className={cn("text-white bg-zinc-900 hover:bg-zinc-800 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900", userPur.subsId>2 && "bg-green-700 hover:bg-green-900" )}>{userPur.subsId>2?"Purchased":userPur.subscriber?"Upgrade":"Get started"}</button>
           </div>
       </div>
   </div>

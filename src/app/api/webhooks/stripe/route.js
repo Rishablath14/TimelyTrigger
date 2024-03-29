@@ -32,6 +32,7 @@ export async function POST(req, res) {
             publicMetadata: {
               subscriber: true,
               subsId:adminSubsId,
+              continue:false,
               isCanceled:false,
               role:"admin",      
             },

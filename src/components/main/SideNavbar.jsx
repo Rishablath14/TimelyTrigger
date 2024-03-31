@@ -16,7 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useWindowWidth } from "@react-hook/window-size";
-import { useAuth } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
+import { ModeToggle } from "../sub/modeToggler";
 
 export default function SideNavbar() {
   const {userId} = useAuth();
@@ -36,7 +37,7 @@ export default function SideNavbar() {
         
       }
       if(onlyWidth < 768) setMobileWidth(true);
-  },[])
+  },[userId])
 
   function toggleSidebar() {
     setIsCollapsed(!isCollapsed);
@@ -48,17 +49,24 @@ export default function SideNavbar() {
 
   return (
     <div className="z-[2] relative min-w-[80px] border-r px-3  pb-10 pt-24 dark:bg-gray-900">
-      {!mobileWidth && (
+      {!mobileWidth ? (
         <div className="absolute right-[-20px] top-7">
           <Button
             onClick={toggleSidebar}
             variant="secondary"
             className=" rounded-full p-2"
-          >
+            >
             <ChevronRight />
           </Button>
         </div>
-      )}
+      ) :
+      (
+        <div className="flex flex-col justify-center items-center gap-4 mb-4">
+        <UserButton/>
+        <ModeToggle/>
+        </div>
+      )
+    }
       <Nav
         isCollapsed={mobileWidth ? true : isCollapsed}
         links={[

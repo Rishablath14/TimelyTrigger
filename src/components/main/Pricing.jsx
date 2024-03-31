@@ -39,7 +39,7 @@ const Pricing = () => {
                   subsId:num,  
                   planId: planid, // Replace with your actual plan ID
                   id: userId, // Pass the user ID for metadata
-                  successUrl: 'https://timelytrigger.netlify.app/checkout/success', // Adjust URL for your deployment
+                  successUrl: 'https://timelytrigger.netlify.app/dashboard', // Adjust URL for your deployment
                   cancelUrl: 'https://timelytrigger.netlify.app/checkout/cancel', // Adjust URL for your deployment
             })})
 

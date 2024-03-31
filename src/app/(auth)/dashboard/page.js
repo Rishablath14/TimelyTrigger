@@ -5,7 +5,7 @@ import AdminModal from '@/components/main/AdminModal';
 import { ref, child, get } from "firebase/database";
 import { database } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import ShiftTimingForm from '@/components/main/ShiftCard';
 const page = () => {
   const router = useRouter();
   const {user,isLoaded} = useUser();
@@ -45,9 +45,12 @@ const page = () => {
       );
     }
   return (
-    <div className='w-full h-screen mt-7 relative'>
+    <div className='w-full min-h-screen mt-7 relative'>
       { userPur.univerId !== 'none' ?
+      <>
         <h4 className='text-center text-2xl font-medium '>Welcome {user?.firstName}</h4>
+        <ShiftTimingForm univerid={userPur.univerId}/>
+      </>
         :
       <AdminModal className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]"/>
       }

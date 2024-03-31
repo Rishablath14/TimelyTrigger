@@ -153,8 +153,8 @@ set(ref(database, 'universities/' + univerid + "/College Data"), {
                 <button type="button" onClick={() => removeLecture(index, lectureIndex)} className="bg-red-500 text-white font-bold py-1 px-1 rounded hover:bg-red-700">Remove Lecture</button>
               </div>
             ))}
-            <button type="button" onClick={() => addLecture(index)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 mt-4">Add Lecture</button>
-            <button type="button" onClick={() => removeShift(index)} className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 ml-4">Remove Shift</button>
+            <button type="button" onClick={() => addLecture(index)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 mt-4 mr-4">Add Lecture</button>
+            <button type="button" onClick={() => removeShift(index)} className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 mt-4">Remove Shift</button>
           </div>
         ))}
         <button type="button" onClick={addShift} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Add Shift</button>

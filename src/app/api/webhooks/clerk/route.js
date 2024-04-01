@@ -62,6 +62,7 @@ export async function POST(req) {
                   continue:false,
                   isCanceled:false,
                   univerId:"none",
+                  timing:false,
                   role:"user",      
                 },
               }

@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import {useAuth, useUser } from '@clerk/nextjs'
 import AdminModal from '@/components/main/AdminModal';
-import { ref, child, get } from "firebase/database";
-import { database } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import ShiftTimingForm from '@/components/main/ShiftCard';
+import Link from 'next/link';
 const page = () => {
   const router = useRouter();
   const {user,isLoaded} = useUser();
@@ -47,6 +46,15 @@ const page = () => {
   return (
     <div className='w-full min-h-screen mt-7 relative'>
       { userPur.univerId !== 'none' ?
+      userPur.timing?
+      <>
+      <div className='w-9/10 min-h-screen flex justify-center items-center overflow-x-scroll'> 
+       <Link href="/academics" className='border border-black text-black dark:border-white rounded-lg p-2 m-2 text-xl dark:text-white'>Upload Academics Data</Link>
+       <Link href="/teachers" className='border  border-black text-black dark:border-white rounded-lg p-2 m-2 text-xl dark:text-white'>Upload Teachers Data</Link>
+       <Link href="/classroom" className='border border-black text-black dark:border-white rounded-lg p-2 m-2 text-xl dark:text-white'>Upload Classroom Data</Link>
+       </div>
+      </>
+      :
       <>
         <h4 className='text-center text-2xl font-medium '>Welcome {user?.firstName}</h4>
         <ShiftTimingForm univerid={userPur.univerId}/>

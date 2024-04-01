@@ -30,7 +30,7 @@ export default function SideNavbar() {
       const getData= async()=>{
         const res = await fetch('/api/users');
         const data = await res.json();
-        if(data.publicMetadata.univerId!=="none") setVis(true);
+        if(data.publicMetadata.univerId!=="none" && data.publicMetadata.timing) setVis(true);
         else setVis(false);
         }
         getData();
@@ -77,9 +77,9 @@ export default function SideNavbar() {
             variant: "ghost"
           },
           {
-            title: "Timetables",
-            href: "/timetables",
-            icon: AlarmClock,
+            title: "Academics",
+            href: "/academics",
+            icon: BookCopy,
             variant: "ghost"
           },
           {
@@ -89,15 +89,15 @@ export default function SideNavbar() {
             variant: "ghost"
           },
           {
-            title: "Academics",
-            href: "/academics",
-            icon: BookCopy,
-            variant: "ghost"
-          },
-          {
             title: "Classrooms",
             href: "/classrooms",
             icon: CassetteTape,
+            variant: "ghost"
+          },
+          {
+            title: "Timetables",
+            href: "/timetables",
+            icon: AlarmClock,
             variant: "ghost"
           },
           {

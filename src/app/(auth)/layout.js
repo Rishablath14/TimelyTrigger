@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }) {
     <div className="min-h-screen w-full bg-white dark:bg-gray-900 dark:text-white text-black flex">
       <SideNavbar/>
       <UpperNav/>
-<main className="w-screen min-h-screen flex flex-col dark:text-white text-black">
+<main className="w-screen min-h-screen flex flex-col dark:text-white text-black mt-0 md:mt-8">
         {children}
 </main>
     </div>

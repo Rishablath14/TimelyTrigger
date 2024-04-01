@@ -9,7 +9,6 @@ function ShiftTimingForm({univerid}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const collegeData = {};
-    const lecturesData = {};
     shiftsData.forEach((shift, index) => {
       const shiftData = {
         Timing: {from: shift.from, to: shift.to},
@@ -23,14 +22,33 @@ function ShiftTimingForm({univerid}) {
 
       collegeData[`shift_${index + 1}`] = shiftData;
     });
-
-set(ref(database, 'universities/' + univerid + "/College Data"), {
-  ...collegeData
-})
+    const postListRef = ref(database, 'universities/' + univerid + "/College Data");
+    const newPostRef = push(postListRef);
+    set(newPostRef, {
+      ...collegeData
+    })
+// set(ref(database, 'universities/' + univerid + "/College Data"), {
+//   ...collegeData
+// })
 .then(() => {
       setShiftsData([{ shiftName: '', from: '', to: '', lunchFrom: '', lunchTo: '', lectures: [{Timing: {from: '', to: ''}}] }]);
       toast.success('Data saved successfully!');
-    }).catch((error) => {
+      try
+  {
+      fetch('/api/users', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        univerId:false,  
+  })}).then(()=>{
+    location.reload();
+  })
+  }
+    catch(e){console.log(e);}  
+})
+.catch((error) => {
       console.error('Error saving data:', error);
       alert('Error occurred while saving data. Please try again later.');
     });

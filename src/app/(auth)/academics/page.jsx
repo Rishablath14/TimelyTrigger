@@ -22,7 +22,7 @@ const Academics = () => {
     }
 },[userId])
   return (
-    <div className='w-9/10 mt-8 min-h-screen flex justify-center items-center'>
+    <div className='w-[98%] mt-8 min-h-screen flex justify-center items-center'>
       {
         userPur.univerId !== 'none' &&
         <ExcelReader univerid={userPur.univerId}/>

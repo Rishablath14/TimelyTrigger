@@ -100,14 +100,11 @@ useEffect(() => {
   };
 
   return (
-    <div className="container mx-auto my-5">
-      <div className="mb-3 flex justify-between">
-        <span>{uploading?"Uploading Data..":""}</span>
-        <div className="flex">
+    <div className="w-full px-2 my-5">
+        <div className="mb-3 w-full flex flex-wrap gap-3">
           <input type="text" placeholder="Enter Department to filter" value={filterValue} onChange={(e) => setFilterValue(e.target.value)} className="p-2 border rounded mr-2" />
           <button className="bg-blue-500 text-white py-2 px-4 rounded mr-2" onClick={applyFilter}>Apply Filter</button>
           <button className="bg-gray-500 text-white py-2 px-4 rounded" onClick={clearFilter}>Clear Filter</button>
-        </div>
       </div>
       <div className="mb-5">
         <div className={`border border-dashed border-gray-500 p-5 ${isDragging ? 'bg-gray-100' : ''}`} onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>

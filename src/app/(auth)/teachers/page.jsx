@@ -22,7 +22,7 @@ const Teachers = () => {
     }
 },[userId])
   return (
-    <div className='w-9/10 min-h-screen flex justify-center items-center'>
+    <div className='w-[98%] min-h-screen flex justify-center items-center'>
       {
         userPur.univerId !== 'none' &&
         <TeacherExcelReader univerid={userPur.univerId}/>

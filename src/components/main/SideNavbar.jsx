@@ -48,7 +48,7 @@ export default function SideNavbar() {
   }
 
   return (
-    <div className="z-[2] relative min-w-[80px] border-r px-3  pb-10 pt-24 dark:bg-gray-900">
+    <div className="z-[2] relative min-w-[10vw] max-w-[13vw] md:min-w-[20vw] md:max-w-[20vw] border-r px-3  pb-10 pt-24 dark:bg-gray-900">
       {!mobileWidth ? (
         <div className="absolute right-[-20px] top-7">
           <Button

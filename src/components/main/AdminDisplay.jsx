@@ -89,7 +89,7 @@ useEffect(() => {
     // Fetch data from Firebase
     return onValue(ref(database, 'universities/' +univerid+ "/academic_data"), (snapshot) => {
       const data = (snapshot.val()) || 'Anonymous';
-      setAcademicData(data);
+      data==="Anonymous"?setAcademicData(null):setAcademicData(data);
     }, {
       onlyOnce: true
     });

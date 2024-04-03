@@ -23,8 +23,7 @@ function ShiftTimingForm({univerid}) {
       collegeData[`shift_${index + 1}`] = shiftData;
     });
     const postListRef = ref(database, 'universities/' + univerid + "/College Data");
-    const newPostRef = push(postListRef);
-    set(newPostRef, {
+    set(postListRef, {
       ...collegeData
     })
 // set(ref(database, 'universities/' + univerid + "/College Data"), {

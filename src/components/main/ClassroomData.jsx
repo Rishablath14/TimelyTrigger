@@ -32,6 +32,7 @@ useEffect(() => {
     const file = e.target.files? e.target.files[0] : e.dataTransfer.files[0];
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('univerId', univerid);
     try {
       const response = await fetch('http://127.0.0.1:5000//upload_classroom_data', {
         method: 'POST',
@@ -90,7 +91,7 @@ useEffect(() => {
 
   const fetchData = async () => {
     // Fetch data from Firebase
-    return onValue(ref(database, 'universities/' + "test2_University" + "/academic_data"), (snapshot) => {
+    return onValue(ref(database, 'universities/' + univerid + "/academic_data"), (snapshot) => {
       const data = (snapshot.val()) || 'Anonymous';
       console.log(data);
       

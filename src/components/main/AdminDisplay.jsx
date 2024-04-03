@@ -17,11 +17,10 @@ useEffect(() => {
   else setDataToShow(academicData);
 }, [filteredData,academicData])
 
-
-  const columns = useMemo(() => {
-    if (!academicData || academicData.length === 0) return [];
-    return Object.keys(academicData[0]).map((key) => ({ Header: key, accessor: key }));
-  }, [academicData]);
+  // const columns = useMemo(() => {
+  //   if (!academicData || academicData.length === 0) return [];
+  //   return Object.keys(academicData[0]).map((key) => ({ Header: key, accessor: key }));
+  // }, [academicData]);
 
 
   const onDrop = async (e) => {
@@ -32,24 +31,24 @@ useEffect(() => {
     const file = e.target.files? e.target.files[0] : e.dataTransfer.files[0];
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('univerId', univerid);
     try {
       const response = await fetch('http://127.0.0.1:5000/upload_academic_data', {
         method: 'POST',
         body: formData,
       });
       if (response.ok) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-      setAcademicData(jsonData);
-    };
-
-    reader.readAsArrayBuffer(file);
+    //   const reader = new FileReader();
+    //   reader.onload = async (e) => {
+    //   const data = new Uint8Array(e.target.result);
+    //   const workbook = XLSX.read(data, { type: 'array' });
+    //   const sheetName = workbook.SheetNames[0];
+    //   const sheet = workbook.Sheets[sheetName];
+    //   const jsonData = XLSX.utils.sheet_to_json(sheet);
+    //   // setAcademicData(jsonData);
+    //   reader.readAsArrayBuffer(file);
+    // };
+        fetchData();
         toast.success(
           `File Uploaded Successfully!`,{
             id:toastGo
@@ -78,8 +77,24 @@ useEffect(() => {
 
   const applyFilter = () => {
     if (!academicData) return;
-    const filteredData = academicData.filter(row => row['Department Name']?.toLowerCase() === filterValue?.toLowerCase());
-    setFilteredData(filteredData);
+    const filter = filterValue.replaceAll(" ", "_").toLowerCase();
+    const filterId = Object.keys(academicData).reduce((acc,key)=>{
+      if(key.toLowerCase()===filter){
+        acc[key] = academicData[key];
+      }
+      return acc;
+    })
+    // console.log(result);
+    // const data = Object.entries(academicData);
+    // const filteredData = data.filter(([department]) => department.toLowerCase() === filter);
+    // const filterId = filteredData[0][0];
+    // console.log(filter);
+    if (academicData.hasOwnProperty(filterId)) {
+      setFilteredData({[filterId]:academicData[filterId]});
+    } else {
+      return null; // Return null if department not found
+    }
+    // setFilteredData(filteredData);
   };
 
   const clearFilter = () => {
@@ -90,9 +105,10 @@ useEffect(() => {
 
   const fetchData = async () => {
     // Fetch data from Firebase
-    return onValue(ref(database, 'universities/' + "sage_university_indore2" + "/academic_data"), (snapshot) => {
+    return onValue(ref(database, 'universities/' +univerid+ "/academic_data"), (snapshot) => {
       const data = (snapshot.val()) || 'Anonymous';
       console.log(data);
+      setAcademicData(data);
       
     }, {
       onlyOnce: true
@@ -116,21 +132,43 @@ useEffect(() => {
         </div>
       </div>
       <div className="table-responsive overflow-x-auto max-w-full">
-        <table className="w-full table-auto border-collapse border">
+        <table className="w-full table-auto border-collapse border text-center">
           <thead>
             <tr className="bg-gray-200 dark:bg-gray-700 dark:text-white dark:font-bold">
-              {columns.map((column, index) => (
-                <th key={index} className="p-2">{column.Header}</th>
-              ))}
+              <th className="p-2">Department</th>
+              <th className="p-2">Branch</th>
+              <th className="p-2">Programs</th>
+              <th className="p-2">Semester 1 subjects</th>
+              <th className="p-2">Semester 2 subjects</th>
+              <th className="p-2">Semester 3 subjects</th>
+              <th className="p-2">Semester 4 subjects</th>
+              <th className="p-2">Semester 5 subjects</th>
+              <th className="p-2">Semester 6 subjects</th>
+              <th className="p-2">Semester 7 subjects</th>
+              <th className="p-2">Semester 8 subjects</th>
             </tr>
           </thead>
           <tbody>
-            {dataToShow && dataToShow.map((row, rowIndex) => (
-              <tr key={rowIndex} className="border-t">
-                {Object.values(row).map((value, cellIndex) => (
-                  <td key={cellIndex} className="p-2">{value}</td>
-                ))}
-              </tr>
+            {dataToShow && Object.entries(dataToShow).map(([department, branchs]) => (
+              Object.entries(branchs).map(([branch, programs]) => (
+                Object.entries(programs).map(([program, subjects]) => (
+                  Object.entries(subjects).map(([subject, semesters],ind) => (
+                    <tr key={ind} className="border-t">
+                      <td className="p-2 border-[1px]">{department}</td>
+                      <td className="p-2 border-[1px]">{branch}</td>
+                      <td className="p-2 border-[1px]">{program}</td>
+                      {Object.entries(semesters).map(([semester, subjectsarr]) => (
+                      <td className="p-2 border-[1px]" key={semester}>
+                        {
+                          Object.entries(subjectsarr).map(([subjectId, subjectname])=>(<span key={subjectId}>{subjectname + ", "}</span>))
+                        }
+                      </td>
+                      ))
+                      }
+                    </tr>
+                ))
+               ))
+              ))
             ))}
           </tbody>
         </table>

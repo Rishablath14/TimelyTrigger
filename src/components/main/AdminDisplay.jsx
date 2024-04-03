@@ -12,15 +12,12 @@ function ExcelReader({univerid}) {
   const [filterValue, setFilterValue] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   
+useEffect(()=>{univerid && fetchData()},[univerid])
+
 useEffect(() => {
   if(filteredData) setDataToShow(filteredData);
   else setDataToShow(academicData);
 }, [filteredData,academicData])
-
-  // const columns = useMemo(() => {
-  //   if (!academicData || academicData.length === 0) return [];
-  //   return Object.keys(academicData[0]).map((key) => ({ Header: key, accessor: key }));
-  // }, [academicData]);
 
 
   const onDrop = async (e) => {
@@ -38,16 +35,6 @@ useEffect(() => {
         body: formData,
       });
       if (response.ok) {
-    //   const reader = new FileReader();
-    //   reader.onload = async (e) => {
-    //   const data = new Uint8Array(e.target.result);
-    //   const workbook = XLSX.read(data, { type: 'array' });
-    //   const sheetName = workbook.SheetNames[0];
-    //   const sheet = workbook.Sheets[sheetName];
-    //   const jsonData = XLSX.utils.sheet_to_json(sheet);
-    //   // setAcademicData(jsonData);
-    //   reader.readAsArrayBuffer(file);
-    // };
         fetchData();
         toast.success(
           `File Uploaded Successfully!`,{
@@ -84,11 +71,6 @@ useEffect(() => {
       }
       return acc;
     })
-    // console.log(result);
-    // const data = Object.entries(academicData);
-    // const filteredData = data.filter(([department]) => department.toLowerCase() === filter);
-    // const filterId = filteredData[0][0];
-    // console.log(filter);
     if (academicData.hasOwnProperty(filterId)) {
       setFilteredData({[filterId]:academicData[filterId]});
     } else {
@@ -107,9 +89,7 @@ useEffect(() => {
     // Fetch data from Firebase
     return onValue(ref(database, 'universities/' +univerid+ "/academic_data"), (snapshot) => {
       const data = (snapshot.val()) || 'Anonymous';
-      console.log(data);
       setAcademicData(data);
-      
     }, {
       onlyOnce: true
     });

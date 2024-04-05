@@ -1,6 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import * as XLSX from 'xlsx';
-import { onValue, ref, set } from 'firebase/database';
+import React, { useState, useEffect } from 'react';
+import { onValue, ref} from 'firebase/database';
 import { database } from '@/firebase';
 import toast from 'react-hot-toast';
 
@@ -12,16 +11,12 @@ function TeacherExcelReader({univerid}) {
   const [filterValue, setFilterValue] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   
+useEffect(()=>{univerid && fetchData()},[univerid])
+
 useEffect(() => {
   if(filteredData) setDataToShow(filteredData);
   else setDataToShow(academicData);
 }, [filteredData,academicData])
-
-
-  const columns = useMemo(() => {
-    if (!academicData || academicData.length === 0) return [];
-    return Object.keys(academicData[0]).map((key) => ({ Header: key, accessor: key }));
-  }, [academicData]);
 
 
   const onDrop = async (e) => {
@@ -34,23 +29,12 @@ useEffect(() => {
     formData.append('file', file);
     formData.append('univerId', univerid);
     try {
-      const response = await fetch('http://127.0.0.1:5000//upload_teachers_data', {
+      const response = await fetch('http://127.0.0.1:5000/upload_teachers_data', {
         method: 'POST',
         body: formData,
       });
       if (response.ok) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-      setAcademicData(jsonData);
-    };
-
-    reader.readAsArrayBuffer(file);
+        fetchData();
         toast.success(
           `File Uploaded Successfully!`,{
             id:toastGo
@@ -79,8 +63,14 @@ useEffect(() => {
 
   const applyFilter = () => {
     if (!academicData) return;
-    const filteredData = academicData.filter(row => row['Department Name']?.toLowerCase() === filterValue?.toLowerCase());
-    setFilteredData(filteredData);
+    const filter = filterValue.replaceAll(" ", "_").toLowerCase();
+    const filterId = Object.keys(academicData).reduce((acc,key)=>{
+      if(key.toLowerCase()===filter){
+        acc[key] = academicData[key];
+      }
+      return acc;
+    },{})
+    setFilteredData(filterId);
   };
 
   const clearFilter = () => {
@@ -91,22 +81,21 @@ useEffect(() => {
 
   const fetchData = async () => {
     // Fetch data from Firebase
-    return onValue(ref(database, 'universities/' + univerid + "/academic_data"), (snapshot) => {
+    return onValue(ref(database, 'universities/' +univerid+ "/academic_data"), (snapshot) => {
       const data = (snapshot.val()) || 'Anonymous';
-      console.log(data);
-      
+      data==="Anonymous"?setAcademicData(null):setAcademicData(data);
     }, {
       onlyOnce: true
     });
   };
 
   return (
-    <div className="w-full px-2 mx-auto my-5">
-        <div className=" mb-3 w-full flex flex-wrap gap-3">
+    <div className="w-full px-2 my-5">
+        <div className="mb-3 w-full flex flex-wrap gap-3">
           <input type="text" placeholder="Enter Department to filter" value={filterValue} onChange={(e) => setFilterValue(e.target.value)} className="p-2 border rounded mr-2" />
-          <button className="bg-blue-500 text-white py-2 px-4 rounded mr-2" onClick={applyFilter}>Apply Filter</button>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded mr-2" onClick={applyFilter}>Apply Filter by Department</button>
           <button className="bg-gray-500 text-white py-2 px-4 rounded" onClick={clearFilter}>Clear Filter</button>
-        </div>
+      </div>
       <div className="mb-5">
         <div className={`border border-dashed border-gray-500 p-5 ${isDragging ? 'bg-gray-100' : ''}`} onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>
           <label htmlFor="excel-upload" disabled={uploading} className="block text-lg font-bold mb-3">Upload Excel Sheet Teachers Data</label>
@@ -117,21 +106,36 @@ useEffect(() => {
         </div>
       </div>
       <div className="table-responsive overflow-x-auto max-w-full">
-        <table className="w-full table-auto border-collapse border">
+        <table className="w-full table-auto border-collapse border text-center">
           <thead>
             <tr className="bg-gray-200 dark:bg-gray-700 dark:text-white dark:font-bold">
-              {columns.map((column, index) => (
-                <th key={index} className="p-2">{column.Header}</th>
-              ))}
+            <th className="p-2">Teacher Name</th>
+              <th className="p-2">Contact No.</th>
+              <th className="p-2">Email ID</th>
+              <th className="p-2">Department Name</th>
+              <th className="p-2">Subject 1</th>
+              <th className="p-2">Subject 2</th>
+              <th className="p-2">Available Time</th>
             </tr>
           </thead>
           <tbody>
-            {dataToShow && dataToShow.map((row, rowIndex) => (
-              <tr key={rowIndex} className="border-t">
-                {Object.values(row).map((value, cellIndex) => (
-                  <td key={cellIndex} className="p-2">{value}</td>
-                ))}
-              </tr>
+            {dataToShow && Object.entries(dataToShow).map(([department, branchs]) => (
+              Object.entries(branchs).map(([branch, names]) => (
+                branch=="Teachers Data" &&
+                Object.entries(names).map(([name, details],ind) => (
+                    <tr key={ind} className="border-t">
+                      <td className="p-2 border-[1px]">{name}</td>
+                      <td className="p-2 border-[1px]">{details["Contact_No"]}</td>
+                      <td className="p-2 border-[1px]">{details["Email ID"]}</td>
+                      <td className="p-2 border-[1px]">{department}</td>
+                      {Object.entries(details["Subject"]).map(([subId, subject]) => (
+                          <td className="p-2 border-[1px]" key={subId}>{subject}</td>
+                      ))
+                    }
+                    <td className="p-2 border-[1px]">{details["Available Time"]}</td>
+                    </tr>
+              ))
+              ))
             ))}
           </tbody>
         </table>

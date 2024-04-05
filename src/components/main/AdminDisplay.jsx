@@ -1,6 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import * as XLSX from 'xlsx';
-import { onValue, ref, set } from 'firebase/database';
+import React, { useState, useEffect } from 'react';
+import { onValue, ref} from 'firebase/database';
 import { database } from '@/firebase';
 import toast from 'react-hot-toast';
 
@@ -70,13 +69,8 @@ useEffect(() => {
         acc[key] = academicData[key];
       }
       return acc;
-    })
-    if (academicData.hasOwnProperty(filterId)) {
-      setFilteredData({[filterId]:academicData[filterId]});
-    } else {
-      return null; // Return null if department not found
-    }
-    // setFilteredData(filteredData);
+    },{})
+    setFilteredData(filterId);
   };
 
   const clearFilter = () => {
@@ -99,7 +93,7 @@ useEffect(() => {
     <div className="w-full px-2 my-5">
         <div className="mb-3 w-full flex flex-wrap gap-3">
           <input type="text" placeholder="Enter Department to filter" value={filterValue} onChange={(e) => setFilterValue(e.target.value)} className="p-2 border rounded mr-2" />
-          <button className="bg-blue-500 text-white py-2 px-4 rounded mr-2" onClick={applyFilter}>Apply Filter</button>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded mr-2" onClick={applyFilter}>Apply Filter by Department</button>
           <button className="bg-gray-500 text-white py-2 px-4 rounded" onClick={clearFilter}>Clear Filter</button>
       </div>
       <div className="mb-5">
@@ -131,6 +125,7 @@ useEffect(() => {
           <tbody>
             {dataToShow && Object.entries(dataToShow).map(([department, branchs]) => (
               Object.entries(branchs).map(([branch, programs]) => (
+                branch!=="Teachers Data"&&branch!=="classrooms_labs_data" &&
                 Object.entries(programs).map(([program, subjects]) => (
                   Object.entries(subjects).map(([subject, semesters],ind) => (
                     <tr key={ind} className="border-t">

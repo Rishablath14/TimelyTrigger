@@ -157,6 +157,24 @@ function GenerateTimeTable({univerid}) {
                   id:toastGo
                 })});
     }
+    const printTimetable = () => {
+        const printableContent = document.getElementById('timetable').innerHTML;
+        const printWindow = window.open('', '_blank');
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title>Printed Timetable</title>
+                <link rel="stylesheet" href="/print.css" type="text/css" media="print">
+            </head>
+            <body>
+                ${printableContent}
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+    };
     return (
         <div className='flex flex-col gap-2 md:mx-4 mx-2'>
             <h1 className='text-xl font-bold mb-2'>Generate Time Table</h1>
@@ -247,7 +265,9 @@ function GenerateTimeTable({univerid}) {
             </form>
             <div className="max-w-full mt-4">
         {genTimetable && Object.entries(genTimetable).map(([key,structs]) => (
-            <div key={key} className="table-responsive overflow-x-scroll max-w-full">
+            <div>
+            <button onClick={printTimetable} className='p-2 bg-gray-700 text-base text-white rounded-md mt-2'>Print Timetable</button>    
+            <div key={key} className="table-responsive overflow-x-scroll max-w-full" id='timetable'>
             <h3 className='text-md font-bold text-white bg-zinc-900 rounded-md p-2 my-4' key={key}>{
                 structs["Structure"]
             }</h3>
@@ -355,6 +375,7 @@ function GenerateTimeTable({univerid}) {
         </tr>
           </tbody>
         </table>
+            </div>
             </div>
 
         // <table className="w-full table-auto border-collapse border text-center">

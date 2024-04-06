@@ -1,0 +1,23 @@
+body *:not(#timetable) {
+    display: none;
+  }
+  
+  /* Ensure the timetable component is visible */
+  #timetable {
+    display: block;
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+/* Adjust spacing and padding for better printing */
+table {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+}

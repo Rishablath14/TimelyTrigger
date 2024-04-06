@@ -272,7 +272,7 @@ function GenerateTimeTable({univerid}) {
             <tr className="border-t">
             <td className="p-2 border-[1px]">Monday</td>   
           {Object.entries(structs["timetable"]["Monday"]).map(([day,timings],ind)=>
-          ( ind==3?
+          ( ind==4?
             <td key={ind} className="p-12 border-[1px]">
             Lunch
             </td>
@@ -286,7 +286,7 @@ function GenerateTimeTable({univerid}) {
             <tr className="border-t">
             <td className="p-2 border-[1px]">Tuesday</td>   
           {Object.entries(structs["timetable"]["Tuesday"]).map(([day,timings],ind)=>
-          ( ind==3?
+          ( ind==4?
             <td key={ind} className="p-12 border-[1px]">
             Lunch
             </td>
@@ -300,7 +300,7 @@ function GenerateTimeTable({univerid}) {
             <tr className="border-t">
             <td className="p-2 border-[1px]">Wednesday</td>   
           {Object.entries(structs["timetable"]["Wednesday"]).map(([day,timings],ind)=>
-          ( ind==3?
+          ( ind==4?
             <td key={ind} className="p-12 border-[1px]">
             Lunch
             </td>
@@ -314,7 +314,7 @@ function GenerateTimeTable({univerid}) {
             <tr className="border-t">
             <td className="p-2 border-[1px]">Thrusday</td>   
           {Object.entries(structs["timetable"]["Thursday"]).map(([day,timings],ind)=>
-          ( ind==3?
+          ( ind==4?
             <td key={ind} className="p-12 border-[1px]">
             Lunch
             </td>
@@ -328,7 +328,7 @@ function GenerateTimeTable({univerid}) {
             <tr className="border-t">
             <td className="p-2 border-[1px]">Friday</td>   
           {Object.entries(structs["timetable"]["Friday"]).map(([day,timings],ind)=>
-          ( ind==3?
+          ( ind==4?
             <td key={ind} className="p-12 border-[1px]">
             Lunch
             </td>
@@ -342,7 +342,7 @@ function GenerateTimeTable({univerid}) {
             <tr className="border-t">
             <td className="p-2 border-[1px]">Saturday</td>   
           {Object.entries(structs["timetable"]["Saturday"]).map(([day,timings],ind)=>
-          ( ind==3?
+          ( ind==4?
             <td key={ind} className="p-12 border-[1px]">
             Lunch
             </td>

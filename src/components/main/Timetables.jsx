@@ -25,7 +25,7 @@ function GenerateTimeTable({univerid}) {
 
 
     const fetchTimetable=()=>{
-            fetch('http://127.0.0.1:5000/fetch_generated_timetable', {
+            fetch('https://timelytriggerbackend.onrender.com/fetch_generated_timetable', {
                 method: 'POST',
                 body: formData,
               })
@@ -37,7 +37,7 @@ function GenerateTimeTable({univerid}) {
         };
 
     const fetchShifts = () => {
-        fetch('http://127.0.0.1:5000/fetch_shifts', {
+        fetch('https://timelytriggerbackend.onrender.com/fetch_shifts', {
             method: 'POST',
             body: formData,
           })
@@ -48,7 +48,7 @@ function GenerateTimeTable({univerid}) {
             .catch(error => console.error('Error fetching shifts:', error));
     };
     const fetchdepartments = () => {
-        fetch('http://127.0.0.1:5000/fetch_departments', {
+        fetch('https://timelytriggerbackend.onrender.com/fetch_departments', {
             method: 'POST',
             body: formData,
           })
@@ -61,7 +61,7 @@ function GenerateTimeTable({univerid}) {
 
     const fetchBranches = department => {
         formData.append('department', department);
-        fetch('http://127.0.0.1:5000/fetch_branches', {
+        fetch('https://timelytriggerbackend.onrender.com/fetch_branches', {
             method: 'POST',
             body: formData,
         })
@@ -75,7 +75,7 @@ function GenerateTimeTable({univerid}) {
     const fetchPrograms = (department, branch) => {
         formData.append('department', department);
         formData.append('branch', branch);
-        fetch('http://127.0.0.1:5000/fetch_programs', {
+        fetch('https://timelytriggerbackend.onrender.com/fetch_programs', {
             method: 'POST',
             body: formData,
         })
@@ -90,7 +90,7 @@ function GenerateTimeTable({univerid}) {
         formData.append('department', department);
         formData.append('branch', branch);
         formData.append('program', program);
-        fetch('http://127.0.0.1:5000/fetch_semesters', {
+        fetch('https://timelytriggerbackend.onrender.com/fetch_semesters', {
             method: 'POST',
             body: formData,
         })
@@ -138,7 +138,7 @@ function GenerateTimeTable({univerid}) {
         formData.append('sessionToMonth', sessionToMonth);
         formData.append('sessionYear', sessionYear);
         const toastGo = toast.loading("Generating Timetable...");
-        fetch('http://127.0.0.1:5000/generate_time_table_result', {
+        fetch('https://timelytriggerbackend.onrender.com/generate_time_table_result', {
             method: 'POST',
             body: formData,
         })

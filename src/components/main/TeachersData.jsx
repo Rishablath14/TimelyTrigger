@@ -29,7 +29,7 @@ useEffect(() => {
     formData.append('file', file);
     formData.append('univerId', univerid);
     try {
-      const response = await fetch('http://127.0.0.1:5000/upload_teachers_data', {
+      const response = await fetch('https://timelytriggerbackend.onrender.com/upload_teachers_data', {
         method: 'POST',
         body: formData,
       });

@@ -6,9 +6,9 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
 apiKey: process.env.APIKEY,
 authDomain: process.env.AUTHDOMAIN,
-projectId: process.env.PROJECTID,
+databaseURL: "https://timelytrigger-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "timelytrigger",
 storageBucket: process.env.STORAGEBUCKET,
-databaseURL: process.env.DATABASEURL,
 messagingSenderId: process.env.MESSAGINGSENDERID,
 appId: process.env.APPID,
 measurementId: process.env.MEASUREMENTID
